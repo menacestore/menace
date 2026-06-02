@@ -8,6 +8,7 @@ import { Plus, ShoppingBag, Minus } from 'lucide-react';
 import Link from 'next/link';
 import { ProductCard } from '@/components/ProductCard';
 import { getColorHex, formatPrice } from '@/lib/utils';
+import { productComposition, sizeChart, deliveriesAndReturns } from '@/lib/product-details';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -201,48 +202,80 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
             <div className="border-t border-black/10">
               {[
                 { id: 'size', title: 'Size Guide', content: (
-                  <div className="text-xs text-gray-500">
-                    <div className="flex gap-4 mb-3">
-                      {['S', 'M', 'L', 'XL', 'XXL'].map(s => (
-                        <button
-                          key={s}
-                          onClick={() => { setSelectedSize(s); setQuantity(1); }}
-                          className={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider border ${
-                            selectedSize === s ? 'border-black bg-black text-white' : 'border-black/10 hover:border-black/30'
-                          }`}
-                        >
-                          {s}
-                        </button>
-                      ))}
-                    </div>
+                  <div className="text-sm text-[#1a1a1a] space-y-4">
                     <table className="w-full text-left">
                       <thead>
-                        <tr className="border-b border-black/10 text-[10px] uppercase tracking-widest text-gray-400">
-                          <th className="pb-1 pr-4">Measurement</th>
-                          <th className="pb-1 pr-4">CM</th>
-                          <th className="pb-1">INCH</th>
+                        <tr className="border-b border-black/10 text-[10px] uppercase tracking-widest text-[#1a1a1a]">
+                          {sizeChart.columns.map(col => (
+                            <th key={col} className="pb-2 pr-4 font-bold">{col}</th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody className="text-[11px]">
-                        {[
-                          { label: 'Body Length', cm: '67', inch: '27' },
-                          { label: 'Chest Width', cm: '52', inch: '21' },
-                          { label: 'Across Shoulder', cm: '48', inch: '19' },
-                          { label: 'Sleeve Length', cm: '21', inch: '9' },
-                        ].map(row => (
-                          <tr key={row.label} className="border-b border-black/5">
-                            <td className="py-1.5 pr-4 font-medium text-gray-600">{row.label}</td>
-                            <td className="py-1.5 pr-4">{row.cm}</td>
-                            <td className="py-1.5">{row.inch}</td>
+                        {sizeChart.rows.map(row => (
+                          <tr key={row.size} className="border-b border-black/5">
+                            <td className="py-2 pr-4 font-bold text-[#1a1a1a]">{row.size}</td>
+                            <td className="py-2 pr-4">{row.length}</td>
+                            <td className="py-2 pr-4">{row.chest}</td>
+                            <td className="py-2">{row.sleeve}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
-                    <p className="text-[10px] text-gray-400 mt-2">Measurements are for size M. Other sizes scale proportionally.</p>
+                    <p className="text-[10px] text-[#1a1a1a] mt-3">All measurements are in {sizeChart.unit}.</p>
                   </div>
                 )},
-                { id: 'details', title: 'Product Details & Composition', content: <p className="text-xs text-gray-500 leading-relaxed">Material details, care instructions, and manufacturing info.</p> },
-                { id: 'delivery', title: 'Deliveries & Returns', content: <p className="text-xs text-gray-500 leading-relaxed">Free standard shipping on orders over PKR 15,000. 30-day return policy.</p> }
+                { id: 'details', title: 'Product Details & Composition', content: (
+                  <div className="text-[12px] text-[#1a1a1a] space-y-4">
+                    <div>
+                      <span className="text-[12px] font-bold uppercase tracking-widest">{productComposition.fit.label}</span>
+                      <p className="mt-1">{productComposition.fit.value}</p>
+                      <p className="mt-1 leading-relaxed">{productComposition.fit.description}</p>
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold uppercase tracking-widest">Composition</span>
+                      <p className="mt-1">{productComposition.composition}</p>
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold uppercase tracking-widest">Care Instructions</span>
+                      <ul className="mt-2 space-y-1">
+                        {productComposition.care.map((line, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="mt-0.5 shrink-0"></span>
+                            {line}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )},
+                { id: 'delivery', title: 'Deliveries & Returns', content: (
+                  <div className="text-[12px] text-[#1a1a1a] space-y-4">
+                    <div>
+                      <span className="text-[12px] font-bold uppercase tracking-widest">{deliveriesAndReturns.delivery.label}</span>
+                      <ul className="mt-2 space-y-1">
+                        {deliveriesAndReturns.delivery.lines.map((line, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="mt-0.5 shrink-0"></span>
+                            {line}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <span className="text-[12px] font-bold uppercase tracking-widest">{deliveriesAndReturns.returns.label}</span>
+                      <p className="mt-2 leading-relaxed">{deliveriesAndReturns.returns.intro}</p>
+                      <ul className="mt-2 space-y-1">
+                        {deliveriesAndReturns.returns.conditions.map((condition, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="mt-0.5 shrink-0"></span>
+                            {condition}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
               ].map(section => (
                 <div key={section.id} className="border-b border-black/10">
                   <button 
@@ -256,7 +289,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
                       {section.title}
                     </span>
                   </button>
-                  <div className={`overflow-hidden transition-all duration-300 ${expandedSection === section.id ? 'max-h-80 pb-4 pl-8' : 'max-h-0'}`}>
+                  <div className={`overflow-hidden transition-all duration-300 ${expandedSection === section.id ? 'max-h-[600px] pb-4 pl-8' : 'max-h-0'}`}>
                     {section.content}
                   </div>
                 </div>
