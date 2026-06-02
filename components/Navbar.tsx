@@ -33,12 +33,25 @@ export function Navbar() {
     { name: 'Track Orders', href: '/order/track' },
   ];
 
+  // The landing page is dark; the navbar floats transparent over the hero
+  // and turns solid dark once scrolled. Other routes keep the light chrome.
+  const isHome = pathname === '/';
+  const darkNav = isHome;
+
+  const headerBg = isHome
+    ? isScrolled
+      ? 'bg-ink/90 backdrop-blur-md border-white/10'
+      : 'bg-transparent border-transparent'
+    : isScrolled
+      ? 'bg-white/95 backdrop-blur-md border-black/10'
+      : 'bg-white border-black/10';
+
+  const fg = darkNav ? 'text-white' : 'text-[#1a1a1a]';
+
   return (
     <>
-      <header 
-        className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 h-20 flex items-center px-4 sm:px-10 border-b border-black/10 ${
-          isScrolled ? 'bg-white/95 backdrop-blur-md' : 'bg-white'
-        }`}
+      <header
+        className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 h-20 flex items-center px-4 sm:px-10 border-b ${headerBg} ${fg}`}
       >
         <div className="grid grid-cols-3 w-full items-center">
           <div className="flex items-center justify-start">
@@ -55,7 +68,7 @@ export function Navbar() {
                   key={link.name} 
                   href={link.href}
                   className={`transition-opacity hover:opacity-100 ${
-                    isActive(link.href) ? 'border-b border-black opacity-100' : 'opacity-50'
+                    isActive(link.href) ? 'border-b border-current opacity-100' : 'opacity-50'
                   }`}
                 >
                   {link.name}
@@ -74,28 +87,28 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4 sm:space-x-6 justify-end">
-            <Link href="/search" className="hidden sm:flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70 text-[#1a1a1a]">
+            <Link href="/search" className="hidden sm:flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70">
               <Search className="w-5 h-5" />
             </Link>
             {session?.user ? (
               <button 
                 onClick={() => signOut({ callbackUrl: '/' })}
-                className="hidden sm:flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70 text-[#1a1a1a]"
+                className="hidden sm:flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70"
               >
                 Logout
               </button>
             ) : (
-              <Link href="/login" className="hidden sm:flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70 text-[#1a1a1a]">
+              <Link href="/login" className="hidden sm:flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70">
                 <User className="w-5 h-5" />
               </Link>
             )}
             <button 
               onClick={() => setIsCartOpen(true)}
-              className="text-[11px] flex items-center justify-center tracking-widest uppercase font-semibold relative transition-opacity hover:opacity-70 text-[#1a1a1a]"
+              className="text-[11px] flex items-center justify-center tracking-widest uppercase font-semibold relative transition-opacity hover:opacity-70"
             >
               <ShoppingBag className="w-5 h-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-black text-white text-[9px] font-bold px-1 py-0.5 rounded-full inline-flex items-center justify-center min-w-[16px] h-[16px]">
+                <span className="absolute -top-1.5 -right-1.5 bg-accent text-ink text-[9px] font-bold px-1 py-0.5 rounded-full inline-flex items-center justify-center min-w-[16px] h-[16px]">
                   {itemCount}
                 </span>
               )}

@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
+@theme {
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #141414;
+  --color-accent: #7b8cd0;
+  --font-heading: var(--font-anton), var(--font-display), sans-serif;
+}
+
 @layer base {
   *:focus-visible {
-    outline: 2px solid #1a1a1a;
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 }
@@ -15,4 +22,31 @@
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* Smoky fog backdrop to echo the hero banner */
+  .bg-fog {
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(123, 140, 208, 0.10), transparent 55%),
+      radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255, 255, 255, 0.05), transparent 60%),
+      #0a0a0a;
+  }
+
+  /* Subtle film grain overlay */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.25;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  .animate-marquee {
+    animation: marquee 32s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }

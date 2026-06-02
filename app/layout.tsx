@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Inter, Playfair_Display, Anton } from 'next/font/google';
 import './globals.css';
 import { CartProvider } from '@/lib/cart-context';
 import { Navbar } from '@/components/Navbar';
@@ -9,6 +9,7 @@ import { SessionProvider } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const playfair = Playfair_Display({ subsets: ['latin'], style: ['normal', 'italic'], variable: '--font-display' });
+const anton = Anton({ subsets: ['latin'], weight: '400', variable: '--font-anton' });
 
 export const metadata: Metadata = {
   title: 'MENACE | Modern E-Commerce',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} ${anton.variable}`}>
       <body className="antialiased min-h-screen flex flex-col font-sans text-[#1a1a1a] bg-white pt-20" suppressHydrationWarning>
         <SessionProvider>
           <CartProvider>
