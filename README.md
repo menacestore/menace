@@ -38,7 +38,7 @@ A modern, production-ready e-commerce platform built with Next.js 15, React 19, 
 ```bash
 npm install
 ```
-
+  
 ### Environment Variables
 
 Copy `.env.example` to `.env` and fill in your credentials:
