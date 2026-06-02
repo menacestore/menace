@@ -303,7 +303,13 @@ export default function ProductDetailClient({ product, relatedProducts }: Produc
       {relatedProducts.length > 0 && (
         <div className="mt-16 border-t border-black/10 pt-16 px-4 sm:px-6 lg:px-8 mb-24 max-w-[1600px] mx-auto">
           <h2 className="text-sm font-bold uppercase tracking-widest text-[#1a1a1a] mb-8">You May Also Like</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className={`grid gap-4 ${
+            relatedProducts.length === 1 ? 'grid-cols-1 max-w-sm' :
+            relatedProducts.length === 2 ? 'grid-cols-2' :
+            relatedProducts.length === 3 ? 'grid-cols-3' :
+            relatedProducts.length === 4 ? 'grid-cols-2 md:grid-cols-4' :
+            'grid-cols-2 md:grid-cols-3 lg:grid-cols-5'
+          }`}>
             {relatedProducts.map(related => (
               <ProductCard key={related.id} product={related} />
             ))}
