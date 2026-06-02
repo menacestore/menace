@@ -46,9 +46,8 @@ export default function CheckoutPage() {
     gb: 'Gilgit Baltistan',
   };
 
-  const tax = cartTotal * 0.18;
   const shipping = cartTotal >= shippingThreshold ? 0 : shippingCost;
-  const finalTotal = cartTotal + tax + shipping;
+  const finalTotal = cartTotal + shipping;
 
   const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -247,7 +246,6 @@ export default function CheckoutPage() {
           <div className="space-y-4 text-[11px] font-medium tracking-widest uppercase text-gray-500">
             <div className="flex justify-between"><span>Subtotal</span><span className="text-[#1a1a1a] font-semibold">PKR {cartTotal.toLocaleString()}</span></div>
             <div className="flex justify-between"><span>Shipping</span><span className="text-[#1a1a1a] font-semibold">{shipping === 0 ? 'Free' : `PKR ${shipping.toLocaleString()}`}</span></div>
-            <div className="flex justify-between"><span>Estimated Tax (18% GST)</span><span className="text-[#1a1a1a] font-semibold">PKR {tax.toLocaleString()}</span></div>
           </div>
           <div className="border-t border-black/10 mt-6 pt-6 flex justify-between items-baseline">
             <span className="text-[12px] uppercase font-bold tracking-widest">Total</span>

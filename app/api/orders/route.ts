@@ -37,8 +37,7 @@ export async function POST(request: NextRequest) {
     }
 
     const shipping = subtotal >= shippingThreshold ? 0 : shippingCost;
-    const tax = subtotal * 0.18;
-    const total = subtotal + tax + shipping;
+    const total = subtotal + shipping;
 
     const orderNumber = generateOrderNumber();
 
@@ -47,7 +46,7 @@ export async function POST(request: NextRequest) {
       `INSERT INTO orders (order_number, user_id, email, status, subtotal, tax, shipping, total, payment_method, shipping_address)
        VALUES ($1, $2, $3, 'pending', $4, $5, $6, $7, $8, $9)
        RETURNING id`,
-      [orderNumber, userId || null, email, subtotal, tax, shipping, total, paymentMethod || 'cod', JSON.stringify(shippingAddress)]
+      [orderNumber, userId || null, email, subtotal, 0, shipping, total, paymentMethod || 'cod', JSON.stringify(shippingAddress)]
     );
 
     const orderId = orderResult[0].id;

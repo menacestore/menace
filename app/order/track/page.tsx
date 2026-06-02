@@ -57,10 +57,7 @@ export default function TrackOrderPage() {
               <span className="text-gray-500">Shipping</span>
               <span>PKR {parseFloat(order.shipping).toLocaleString()}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">Tax</span>
-              <span>PKR {parseFloat(order.tax).toLocaleString()}</span>
-            </div>
+
             <div className="flex justify-between font-bold border-t border-black/10 pt-2">
               <span>Total</span>
               <span>PKR {parseFloat(order.total).toLocaleString()}</span>
