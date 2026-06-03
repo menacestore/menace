@@ -2,6 +2,14 @@ import { query } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
+const statusStyles: Record<string, string> = {
+  pending:   'bg-yellow-900/40 text-yellow-400 border border-yellow-500/30',
+  confirmed: 'bg-green-900/40 text-green-400 border border-green-500/30',
+  shipped:   'bg-blue-900/40 text-blue-400 border border-blue-500/30',
+  delivered: 'bg-emerald-900/40 text-emerald-400 border border-emerald-500/30',
+  cancelled: 'bg-red-900/40 text-red-400 border border-red-500/30',
+};
+
 export default async function OrderConfirmationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
@@ -10,9 +18,7 @@ export default async function OrderConfirmationPage({ params }: { params: Promis
     FROM orders WHERE id = $1
   `, [id]);
 
-  if (orders.length === 0) {
-    return notFound();
-  }
+  if (orders.length === 0) return notFound();
 
   const order = orders[0];
   const shippingAddress = typeof order.shippingAddress === 'string' ? JSON.parse(order.shippingAddress) : order.shippingAddress;
@@ -27,65 +33,60 @@ export default async function OrderConfirmationPage({ params }: { params: Promis
   return (
     <div className="max-w-3xl mx-auto px-4 py-16">
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-6xl font-bold font-display mb-6">Order <span className="italic font-normal">Confirmed.</span></h1>
-        <p className="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto">
-          Your order <span className="font-bold text-[#1a1a1a]">#{order.orderNumber}</span> has been placed. Check your email for tracking details.
+        <span className="text-[10px] uppercase tracking-[0.4em] text-accent block mb-3">Thank You</span>
+        <h1 className="text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none mb-6">
+          Order <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Confirmed.</span>
+        </h1>
+        <p className="text-zinc-400 text-sm leading-relaxed max-w-sm mx-auto">
+          Your order <span className="font-bold text-zinc-100">#{order.orderNumber}</span> has been placed. Check your email for tracking details.
         </p>
       </div>
 
-      <div className="bg-[#fbfbfb] border border-black/10 p-6 mb-8">
-        <div className="flex justify-between items-center mb-6 pb-4 border-b border-black/10">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Status</span>
-          <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 ${
-            order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-            order.status === 'confirmed' ? 'bg-green-100 text-green-800' :
-            order.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
-            order.status === 'delivered' ? 'bg-emerald-100 text-emerald-800' :
-            order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-            'bg-gray-100 text-gray-800'
-          }`}>
+      <div className="bg-ink-soft border border-white/10 p-6 mb-8">
+        <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Status</span>
+          <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 ${statusStyles[order.status] || 'bg-white/10 text-zinc-300'}`}>
             {order.status}
           </span>
         </div>
 
         <div className="grid grid-cols-2 gap-8 mb-8">
           <div>
-            <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Shipping To</h3>
+            <h3 className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Shipping To</h3>
             <p className="text-sm">{shippingAddress?.firstName} {shippingAddress?.lastName}</p>
-            <p className="text-sm text-gray-500">{shippingAddress?.address}</p>
-            <p className="text-sm text-gray-500">{shippingAddress?.city}, {shippingAddress?.province}</p>
+            <p className="text-sm text-zinc-400">{shippingAddress?.address}</p>
+            <p className="text-sm text-zinc-400">{shippingAddress?.city}, {shippingAddress?.province}</p>
           </div>
           <div>
-            <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Payment</h3>
+            <h3 className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Payment</h3>
             <p className="text-sm uppercase">{order.paymentMethod}</p>
           </div>
         </div>
 
         <div className="space-y-4 mb-6">
           {items.map((item: any) => (
-            <div key={item.id} className="flex justify-between items-center border-b border-black/5 pb-4">
+            <div key={item.id} className="flex justify-between items-center border-b border-white/10 pb-4">
               <div>
                 <p className="text-sm font-bold uppercase">{item.product_name}</p>
-                <p className="text-[10px] text-gray-400 uppercase">Size: {item.size} / Color: {item.color} / Qty: {item.quantity}</p>
+                <p className="text-[10px] text-zinc-500 uppercase">Size: {item.size} / Color: {item.color} / Qty: {item.quantity}</p>
               </div>
               <span className="text-sm font-semibold">PKR {(parseFloat(item.price) * item.quantity).toLocaleString()}</span>
             </div>
           ))}
         </div>
 
-        <div className="space-y-2 text-sm border-t border-black/10 pt-4">
-          <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span>PKR {parseFloat(order.subtotal).toLocaleString()}</span></div>
-          <div className="flex justify-between"><span className="text-gray-500">Shipping</span><span>PKR {parseFloat(order.shipping).toLocaleString()}</span></div>
-
-          <div className="flex justify-between font-bold text-base border-t border-black/10 pt-2"><span>Total</span><span>PKR {parseFloat(order.total).toLocaleString()}</span></div>
+        <div className="space-y-2 text-sm border-t border-white/10 pt-4">
+          <div className="flex justify-between"><span className="text-zinc-400">Subtotal</span><span>PKR {parseFloat(order.subtotal).toLocaleString()}</span></div>
+          <div className="flex justify-between"><span className="text-zinc-400">Shipping</span><span>PKR {parseFloat(order.shipping).toLocaleString()}</span></div>
+          <div className="flex justify-between font-bold text-base border-t border-white/10 pt-2"><span>Total</span><span>PKR {parseFloat(order.total).toLocaleString()}</span></div>
         </div>
       </div>
 
-      <div className="flex gap-4 justify-center">
-        <Link href="/products" className="bg-[#1a1a1a] text-white px-10 py-5 font-bold uppercase tracking-[0.2em] text-[11px] hover:opacity-85 transition-opacity inline-block">
+      <div className="flex gap-4 justify-center flex-wrap">
+        <Link href="/products" className="bg-accent text-ink px-10 py-5 font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-white transition-colors inline-block">
           Continue Shopping
         </Link>
-        <Link href="/order/track" className="border border-black text-[#1a1a1a] px-10 py-5 font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-black hover:text-white transition-colors inline-block">
+        <Link href="/order/track" className="border border-white/20 text-zinc-100 px-10 py-5 font-bold uppercase tracking-[0.2em] text-[11px] hover:border-accent hover:text-accent transition-colors inline-block">
           Track Order
         </Link>
       </div>

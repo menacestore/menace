@@ -14,20 +14,35 @@ export function generateStaticParams() {
   ];
 }
 
-export default async function CategoryPage({ 
+const categoryMeta: Record<string, { label: string; heading: string; italic: string; description: string }> = {
+  shirts: {
+    label: 'Shirts',
+    heading: 'Wear Your',
+    italic: 'Demons',
+    description: 'Definitive tops designed for layering and pure statement.',
+  },
+  accessories: {
+    label: 'Accessories',
+    heading: 'Complete',
+    italic: 'the Look',
+    description: 'Essential accessories to finish your fit.',
+  },
+};
+
+export default async function CategoryPage({
   params,
   searchParams,
-}: { 
+}: {
   params: Promise<{ category: string }>;
   searchParams: Promise<{ sort?: string }>;
 }) {
   const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
   const category = resolvedParams.category;
-  
-  if (!['shirts', 'accessories'].includes(category)) {
-    notFound();
-  }
+
+  if (!['shirts', 'accessories'].includes(category)) notFound();
+
+  const meta = categoryMeta[category];
 
   let sqlQuery = `
     SELECT
@@ -70,36 +85,32 @@ export default async function CategoryPage({
   else sqlQuery += ` ORDER BY p.created_at DESC`;
 
   const products = await query(sqlQuery, [category]);
-
   const formattedProducts = products.map(formatProduct);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="mb-16">
-        <h1 className="text-4xl md:text-6xl font-bold font-display mb-4 capitalize">
-          Wear <span className="italic font-normal">Your Demons</span>
+      <div className="mb-12">
+        <span className="text-[10px] uppercase tracking-[0.4em] text-accent">{meta.label}</span>
+        <h1 className="mt-3 text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none">
+          {meta.heading}{' '}
+          <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">{meta.italic}</span>
         </h1>
-        <p className="text-gray-500 max-w-xl text-sm leading-relaxed">
-          {category === 'shirts' 
-            ? 'Definitive tops designed for layering and pure statement.'
-            : 'Essential accessories to complete your look.'}
-        </p>
+        <p className="mt-4 text-zinc-400 max-w-xl text-sm leading-relaxed">{meta.description}</p>
       </div>
 
-      <div className="flex justify-between items-end mb-12 pb-4 border-b border-black/10">
-        <span className="text-[10px] uppercase tracking-widest text-[#1a1a1a] font-bold">{formattedProducts.length} Products</span>
+      <div className="flex justify-between items-center mb-12 pb-4 border-b border-white/10">
+        <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">{formattedProducts.length} Products</span>
         <SortDropdown defaultSort={sort || 'newest'} />
       </div>
 
       {formattedProducts.length === 0 ? (
         <div className="text-center py-32">
-          <p className="text-[11px] uppercase tracking-[0.15em] text-gray-400 font-medium">No products found</p>
-          <p className="text-[10px] text-gray-300 mt-2">Try adjusting your filters.</p>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-zinc-500 font-medium">No products found</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-16">
           {formattedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} variant="dark" />
           ))}
         </div>
       )}

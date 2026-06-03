@@ -10,7 +10,7 @@ export default async function AllProductsPage({
   searchParams: Promise<{ filter?: string; sort?: string; minPrice?: string; maxPrice?: string; size?: string }>;
 }) {
   const resolvedSearchParams = await searchParams;
-  
+
   let sqlQuery = `
     SELECT
       p.id,
@@ -48,9 +48,7 @@ export default async function AllProductsPage({
   const params: (string | number)[] = [];
   let paramIndex = 1;
 
-  if (resolvedSearchParams.filter === 'new') {
-    conditions.push(`p.new_arrival = true`);
-  }
+  if (resolvedSearchParams.filter === 'new') conditions.push(`p.new_arrival = true`);
 
   if (resolvedSearchParams.minPrice) {
     conditions.push(`p.price >= $${paramIndex}`);
@@ -70,10 +68,7 @@ export default async function AllProductsPage({
     paramIndex++;
   }
 
-  if (conditions.length > 0) {
-    sqlQuery += ` WHERE ${conditions.join(' AND ')}`;
-  }
-
+  if (conditions.length > 0) sqlQuery += ` WHERE ${conditions.join(' AND ')}`;
   sqlQuery += ` GROUP BY p.id`;
 
   const sort = resolvedSearchParams.sort;
@@ -84,34 +79,34 @@ export default async function AllProductsPage({
   sqlQuery += ` LIMIT 24`;
 
   const products = await query(sqlQuery, params);
-
   const formattedProducts = products.map(formatProduct);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="mb-16">
-        <h1 className="text-4xl md:text-6xl font-bold font-display mb-4">
-          The <span className="italic font-normal">Menace Collection</span>
+      <div className="mb-12">
+        <span className="text-[10px] uppercase tracking-[0.4em] text-accent">The Menace Collection</span>
+        <h1 className="mt-3 text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none">
+          All <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Products</span>
         </h1>
-        <p className="text-gray-500 max-w-xl text-sm leading-relaxed">
+        <p className="mt-4 text-zinc-400 max-w-xl text-sm leading-relaxed">
           Our complete collection. Every piece engineered for endurance and aesthetics.
         </p>
       </div>
 
-      <div className="flex justify-between items-end mb-12 pb-4 border-b border-black/10">
-        <span className="text-[10px] uppercase tracking-widest text-[#1a1a1a] font-bold">{formattedProducts.length} Products</span>
+      <div className="flex justify-between items-center mb-12 pb-4 border-b border-white/10">
+        <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">{formattedProducts.length} Products</span>
         <SortDropdown defaultSort={sort || 'newest'} />
       </div>
 
       {formattedProducts.length === 0 ? (
         <div className="text-center py-32">
-          <p className="text-[11px] uppercase tracking-[0.15em] text-gray-400 font-medium">No products found</p>
-          <p className="text-[10px] text-gray-300 mt-2">Try adjusting your filters.</p>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-zinc-500 font-medium">No products found</p>
+          <p className="text-[10px] text-zinc-600 mt-2">Try adjusting your filters.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-16">
           {formattedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} variant="dark" />
           ))}
         </div>
       )}

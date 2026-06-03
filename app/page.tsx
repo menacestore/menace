@@ -48,32 +48,30 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col bg-ink text-zinc-100 -mt-20">
-      {/* HERO — full-bleed banner behind the transparent navbar */}
-      <section className="relative aspect-[16/9] md:aspect-auto md:h-screen md:min-h-[560px] flex items-end justify-center overflow-hidden bg-ink">
+
+      {/* HERO */}
+      <section className="relative min-h-[75vh] sm:min-h-[85vh] md:h-screen md:min-h-[560px] flex items-end justify-center overflow-hidden bg-ink">
         <Image
           src="/heropage.PNG"
           alt="MENACE — Welcome to the dark side of streetwear"
           fill
-          className="object-contain md:object-cover object-center"
+          className="object-contain object-center"
           priority
         />
-        {/* darken edges + a bottom gradient so the CTA stays legible */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/30 md:from-black/70 md:via-transparent md:to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
 
-        <div className="relative z-10 text-center px-4 pb-8 md:pb-20 max-w-4xl mx-auto flex flex-col items-center">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              href="/products"
-              className="bg-accent text-ink px-12 py-5 font-bold uppercase tracking-[0.25em] text-[11px] hover:bg-white transition-colors inline-block"
-            >
-              Shop Now
-            </Link>
-          </div>
-          <span className="mt-6 text-[10px] uppercase tracking-[0.4em] text-zinc-400">Scroll to enter</span>
+        <div className="relative z-10 text-center px-4 pb-10 sm:pb-14 md:pb-20 w-full max-w-4xl mx-auto flex flex-col items-center">
+          <Link
+            href="/products"
+            className="bg-accent text-ink px-10 py-4 sm:px-12 sm:py-5 font-bold uppercase tracking-[0.25em] text-[11px] hover:bg-white transition-colors inline-block"
+          >
+            Shop Now
+          </Link>
+          <span className="mt-5 text-[10px] uppercase tracking-[0.4em] text-zinc-400">Scroll to enter</span>
         </div>
       </section>
 
-      {/* MARQUEE — echoes the banner tagline */}
+      {/* MARQUEE */}
       <div className="bg-accent text-ink overflow-hidden py-3 border-y border-white/10">
         <div className="flex w-max animate-marquee">
           {[0, 1].map(group => (
@@ -89,30 +87,30 @@ export default async function Home() {
       </div>
 
       {/* FEATURED DROPS */}
-      <section className="relative bg-fog grain py-24 w-full overflow-hidden">
+      <section className="relative bg-fog grain py-16 sm:py-20 lg:py-24 w-full overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="flex items-end justify-between mb-16 pb-4 border-b border-white/10">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-10 sm:mb-16 pb-4 border-b border-white/10 gap-4">
             <div>
-              <div className="flex items-center space-x-4 mb-4">
+              <div className="flex items-center space-x-4 mb-3 sm:mb-4">
                 <span className="text-[10px] uppercase tracking-widest text-accent">Curated for the bold</span>
-                <div className="h-px w-12 bg-white/20"></div>
+                <div className="h-px w-12 bg-white/20" />
               </div>
-              <h2 className="text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none">
+              <h2 className="text-4xl sm:text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none">
                 Featured <span className="font-display italic font-normal lowercase tracking-normal text-accent">drops</span>
               </h2>
             </div>
-            <Link href="/products" className="hidden sm:flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-accent transition-colors">
+            <Link href="/products" className="hidden sm:flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-accent transition-colors shrink-0">
               View All <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-16">
             {featuredProducts.map(product => (
               <ProductCard key={product.id} product={product} variant="dark" />
             ))}
           </div>
 
-          <div className="mt-16 sm:hidden flex justify-center border-t border-white/10 pt-8">
+          <div className="mt-12 sm:hidden flex justify-center border-t border-white/10 pt-8">
             <Link href="/products" className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-accent transition-colors">
               View All Products <ArrowRight className="w-4 h-4" />
             </Link>
@@ -121,13 +119,13 @@ export default async function Home() {
       </section>
 
       {/* BRAND STATEMENT */}
-      <section className="relative bg-ink-soft grain border-y border-white/10 py-28 px-4 overflow-hidden">
+      <section className="relative bg-ink-soft grain border-y border-white/10 py-16 sm:py-20 md:py-28 px-4 overflow-hidden">
         <div className="relative max-w-4xl mx-auto text-center">
           <span className="text-[10px] uppercase tracking-[0.4em] text-accent">The Menace Ethos</span>
-          <h2 className="mt-6 text-4xl md:text-6xl font-[family-name:var(--font-heading)] uppercase leading-[0.95] tracking-tight text-white">
+          <h2 className="mt-5 sm:mt-6 text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-heading)] uppercase leading-[0.95] tracking-tight text-white">
             Engineered for the <span className="text-accent">dark side</span> of streetwear
           </h2>
-          <p className="mt-8 max-w-xl mx-auto text-sm md:text-base text-zinc-400 font-light leading-relaxed">
+          <p className="mt-6 sm:mt-8 max-w-xl mx-auto text-sm text-zinc-400 font-light leading-relaxed">
             Precision-crafted garments for those who refuse the ordinary. Bold silhouettes, uncompromising detail, built to be worn after dark.
           </p>
         </div>
@@ -142,8 +140,8 @@ export default async function Home() {
             { icon: Truck, title: 'Order Tracking', copy: 'Follow your drop from our hands to your door.', href: '/order/track' },
           ].map(({ icon: Icon, title, copy, href }) => {
             const content = (
-              <div className="flex flex-col items-center text-center px-6 py-12 sm:py-16 h-full group">
-                <Icon className="w-7 h-7 text-accent mb-5" strokeWidth={1.5} />
+              <div className="flex flex-col items-center text-center px-6 py-10 sm:py-14 lg:py-16 h-full group">
+                <Icon className="w-7 h-7 text-accent mb-4 sm:mb-5" strokeWidth={1.5} />
                 <h3 className="text-[12px] font-bold uppercase tracking-[0.25em] text-white mb-3 group-hover:text-accent transition-colors">
                   {title}
                 </h3>
@@ -158,6 +156,7 @@ export default async function Home() {
           })}
         </div>
       </section>
+
     </div>
   );
 }

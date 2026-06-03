@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} ${anton.variable}`}>
-      <body className="antialiased min-h-screen flex flex-col font-sans text-[#1a1a1a] bg-white pt-20" suppressHydrationWarning>
+      <body className="antialiased min-h-screen flex flex-col font-sans text-zinc-100 bg-ink pt-20" suppressHydrationWarning>
         <SessionProvider>
           <CartProvider>
             <Navbar />

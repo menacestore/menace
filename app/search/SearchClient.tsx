@@ -16,26 +16,21 @@ export default function SearchClient({ initialQuery }: { initialQuery: string })
   };
 
   return (
-    <div className="mb-16">
-      <h1 className="text-4xl md:text-6xl font-bold font-display mb-4">
-        Search <span className="italic font-normal">Results</span>
-      </h1>
-      <form onSubmit={handleSubmit} className="flex gap-4 max-w-xl">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search products..."
-          className="flex-1 border border-black/10 bg-[#fbfbfb] p-4 text-sm focus:border-black outline-none transition-colors"
-        />
-        <button
-          type="submit"
-          className="bg-[#1a1a1a] text-white px-6 py-4 font-bold uppercase tracking-[0.1em] text-[11px] hover:opacity-85 transition-opacity flex items-center gap-2"
-        >
-          <Search className="w-4 h-4" />
-          Search
-        </button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="flex gap-3 mt-8 max-w-xl">
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search products..."
+        className="flex-1 bg-white/5 border border-white/10 text-zinc-100 placeholder:text-zinc-500 p-4 text-sm focus:border-accent outline-none transition-colors"
+      />
+      <button
+        type="submit"
+        className="bg-accent text-ink px-6 py-4 font-bold uppercase tracking-[0.1em] text-[11px] hover:bg-white transition-colors flex items-center gap-2"
+      >
+        <Search className="w-4 h-4" />
+        Search
+      </button>
+    </form>
   );
 }

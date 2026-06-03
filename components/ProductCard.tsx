@@ -23,7 +23,7 @@ export function ProductCard({ product, variant = 'light' }: ProductCardProps) {
       <div className={`relative aspect-[3/4] mb-4 overflow-hidden border ${dark ? 'bg-ink-soft border-white/10' : 'bg-[#f4f4f4] border-black/5'}`}>
         {product.newArrival && (
           <div className="absolute top-4 left-4 z-10">
-            <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-1 ${dark ? 'bg-accent text-ink' : 'bg-white text-black border border-black/10'}`}>
+            <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-1 bg-accent text-ink">
               New
             </span>
           </div>

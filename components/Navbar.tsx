@@ -58,25 +58,18 @@ export function Navbar() {
     { name: 'Track Orders', href: '/order/track' },
   ];
 
-  // The landing page is dark; the navbar floats transparent over the hero
-  // and turns solid dark once scrolled. Other routes keep the light chrome.
   const isHome = pathname === '/';
-  const darkNav = isHome;
 
-  const headerBg = isHome
-    ? isScrolled
-      ? 'bg-ink/90 backdrop-blur-md border-white/10'
-      : 'bg-transparent border-transparent'
-    : isScrolled
-      ? 'bg-white/95 backdrop-blur-md border-black/10'
-      : 'bg-white border-black/10';
-
-  const fg = darkNav ? 'text-white' : 'text-[#1a1a1a]';
+  const headerBg = isScrolled
+    ? 'bg-ink/90 backdrop-blur-md border-white/10'
+    : isHome
+      ? 'bg-transparent border-transparent'
+      : 'bg-ink border-white/10';
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 h-20 flex items-center px-4 sm:px-10 border-b ${headerBg} ${fg}`}
+        className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 h-20 flex items-center px-4 sm:px-10 border-b text-zinc-100 ${headerBg}`}
       >
         {isSearchOpen ? (
           <form onSubmit={handleSearchSubmit} className="flex w-full items-center gap-3">
@@ -169,50 +162,48 @@ export function Navbar() {
       </header>
 
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
-        </div>
+        <div className="fixed inset-0 z-40 lg:hidden bg-black/60 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
       )}
-      <div 
-        className={`fixed top-0 left-0 z-50 w-72 max-w-[80vw] bg-white h-full shadow-xl flex flex-col transform transition-transform duration-300 lg:hidden ${
+      <div
+        className={`fixed top-0 left-0 z-50 w-72 max-w-[80vw] bg-ink-soft border-r border-white/10 h-full shadow-xl flex flex-col transform transition-transform duration-300 lg:hidden ${
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between p-6 border-b border-black/10">
-          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="font-display font-bold text-2xl tracking-tighter uppercase">
+        <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="font-[family-name:var(--font-heading)] font-bold text-2xl tracking-tight uppercase text-zinc-100">
             MENACE
           </Link>
-          <button 
+          <button
             onClick={() => setIsMobileMenuOpen(false)}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-white/10 rounded-full transition-colors text-zinc-400 hover:text-zinc-100"
           >
             <X className="w-6 h-6" />
           </button>
         </div>
         <nav className="flex flex-col p-6 gap-6">
           {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
+            <Link
+              key={link.name}
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`text-[12px] font-bold tracking-[0.2em] uppercase ${
-                isActive(link.href) ? 'text-[#1a1a1a] underline underline-offset-4' : 'text-gray-500'
+              className={`text-[12px] font-bold tracking-[0.2em] uppercase transition-colors ${
+                isActive(link.href) ? 'text-accent underline underline-offset-4' : 'text-zinc-500 hover:text-zinc-100'
               }`}
             >
               {link.name}
             </Link>
           ))}
         </nav>
-        <div className="mt-auto p-6 flex flex-col gap-4 border-t border-black/10">
+        <div className="mt-auto p-6 flex flex-col gap-4 border-t border-white/10">
           {session?.user ? (
-            <button 
+            <button
               onClick={() => { setIsMobileMenuOpen(false); signOut({ callbackUrl: '/' }); }}
-              className="flex items-center gap-3 text-[12px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]"
+              className="flex items-center gap-3 text-[12px] font-bold tracking-[0.2em] uppercase text-zinc-400 hover:text-zinc-100 transition-colors"
             >
               Logout
             </button>
           ) : (
-            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-[12px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">
+            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-[12px] font-bold tracking-[0.2em] uppercase text-zinc-400 hover:text-zinc-100 transition-colors">
               <User className="w-4 h-4" /> Account
             </Link>
           )}
