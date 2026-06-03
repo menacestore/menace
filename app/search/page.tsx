@@ -43,14 +43,7 @@ export default async function SearchPage({
       FROM products p
       LEFT JOIN product_images pi ON pi.product_id = p.id
       LEFT JOIN product_variants pv ON pv.product_id = p.id
-      WHERE
-        LOWER(p.name) LIKE $1 OR
-        LOWER(p.description) LIKE $1 OR
-        LOWER(p.category) LIKE $1 OR
-        EXISTS (
-          SELECT 1 FROM product_variants pv2
-          WHERE pv2.product_id = p.id AND LOWER(pv2.color) LIKE $1
-        )
+      WHERE LOWER(p.name) LIKE $1
       GROUP BY p.id
       ORDER BY p.created_at DESC
       LIMIT 50

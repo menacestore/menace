@@ -91,7 +91,7 @@ export default async function AllProductsPage({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="mb-16">
         <h1 className="text-4xl md:text-6xl font-bold font-display mb-4">
-          All <span className="italic font-normal">Archive</span>
+          The <span className="italic font-normal">Menace Collection</span>
         </h1>
         <p className="text-gray-500 max-w-xl text-sm leading-relaxed">
           Our complete collection. Every piece engineered for endurance and aesthetics.

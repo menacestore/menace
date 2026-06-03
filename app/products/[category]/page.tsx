@@ -77,7 +77,7 @@ export default async function CategoryPage({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="mb-16">
         <h1 className="text-4xl md:text-6xl font-bold font-display mb-4 capitalize">
-          Core <span className="italic font-normal">{category}</span>
+          Wear <span className="italic font-normal">Your Demons</span>
         </h1>
         <p className="text-gray-500 max-w-xl text-sm leading-relaxed">
           {category === 'shirts' 

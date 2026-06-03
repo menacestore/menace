@@ -132,12 +132,14 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center space-x-4 sm:space-x-6 justify-end">
-              <button
-                onClick={openSearch}
-                className="hidden sm:flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70"
-              >
-                <Search className="w-5 h-5" />
-              </button>
+              {pathname !== '/search' && (
+                <button
+                  onClick={openSearch}
+                  className="flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70"
+                >
+                  <Search className="w-5 h-5" />
+                </button>
+              )}
               {session?.user ? (
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
@@ -214,9 +216,6 @@ export function Navbar() {
               <User className="w-4 h-4" /> Account
             </Link>
           )}
-          <button onClick={openSearch} className="flex items-center gap-3 text-[12px] font-bold tracking-[0.2em] uppercase text-[#1a1a1a]">
-            <Search className="w-4 h-4" /> Search
-          </button>
         </div>
       </div>
     </>
