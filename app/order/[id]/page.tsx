@@ -14,7 +14,7 @@ export default async function OrderConfirmationPage({ params }: { params: Promis
   const { id } = await params;
 
   const orders = await query(`
-    SELECT order_number AS "orderNumber", email, status, subtotal, tax, shipping, total, payment_method AS "paymentMethod", shipping_address AS "shippingAddress", created_at AS "createdAt"
+    SELECT order_number AS "orderNumber", email, status, subtotal, shipping, total, payment_method AS "paymentMethod", shipping_address AS "shippingAddress", created_at AS "createdAt"
     FROM orders WHERE id = $1
   `, [id]);
 
@@ -56,6 +56,7 @@ export default async function OrderConfirmationPage({ params }: { params: Promis
             <p className="text-sm">{shippingAddress?.firstName} {shippingAddress?.lastName}</p>
             <p className="text-sm text-zinc-400">{shippingAddress?.address}</p>
             <p className="text-sm text-zinc-400">{shippingAddress?.city}, {shippingAddress?.province}</p>
+            <p className="text-sm text-zinc-400">{shippingAddress?.phone}</p>
           </div>
           <div>
             <h3 className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Payment</h3>

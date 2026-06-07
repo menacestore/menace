@@ -9,7 +9,7 @@ export async function GET() {
   }
 
   return NextResponse.json({
-    shippingThreshold: result.shipping_threshold || 15000,
-    shippingCost: result.shipping_cost || 250,
+    shippingThreshold: result.shipping_threshold ?? 0,
+    shippingCost: result.shipping_cost ?? 0,
   });
 }

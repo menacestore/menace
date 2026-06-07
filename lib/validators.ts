@@ -33,6 +33,7 @@ export const orderSchema = z.object({
     lastName: z.string().min(1),
     address: z.string().min(1),
     apartment: z.string().optional(),
+    phone: z.string().min(1),
     city: z.string().min(1),
     province: z.string().min(1),
   }),

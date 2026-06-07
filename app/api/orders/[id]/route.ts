@@ -8,7 +8,7 @@ export async function GET(
   const { id } = await params;
 
   const orders = await query(`
-    SELECT id, order_number AS "orderNumber", email, status, subtotal, tax, shipping, total, payment_method AS "paymentMethod", shipping_address AS "shippingAddress", created_at AS "createdAt"
+    SELECT id, order_number AS "orderNumber", email, status, subtotal, shipping, total, payment_method AS "paymentMethod", shipping_address AS "shippingAddress", created_at AS "createdAt"
     FROM orders WHERE id = $1
   `, [id]);
 

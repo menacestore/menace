@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   }
 
   const orders = await query(`
-    SELECT id, order_number AS "orderNumber", email, status, subtotal, tax, shipping, total, payment_method AS "paymentMethod", created_at AS "createdAt"
+    SELECT id, order_number AS "orderNumber", email, status, subtotal, shipping, total, payment_method AS "paymentMethod", created_at AS "createdAt"
     FROM orders
     WHERE order_number = $1 AND email = $2
   `, [orderNumber, email]);

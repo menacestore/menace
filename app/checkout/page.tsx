@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { provinceCities, OTHER_CITY } from '@/lib/pk-locations';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -15,7 +16,9 @@ export default function CheckoutPage() {
   const [step, setStep] = useState<1 | 2>(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [contactInfo, setContactInfo] = useState({ email: '', firstName: '', lastName: '', address: '', apartment: '', city: '', province: '' });
+  const [contactInfo, setContactInfo] = useState({ email: '', firstName: '', lastName: '', address: '', apartment: '', phone: '', city: '', province: '' });
+  const [provinceValue, setProvinceValue] = useState('');
+  const [cityIsOther, setCityIsOther] = useState(false);
   const [shippingThreshold, setShippingThreshold] = useState(15000);
   const [shippingCost, setShippingCost] = useState(250);
 
@@ -46,6 +49,8 @@ export default function CheckoutPage() {
     gb: 'Gilgit Baltistan',
   };
 
+  const cities = provinceCities[provinceValue] || [];
+
   const shipping = cartTotal >= shippingThreshold ? 0 : shippingCost;
   const finalTotal = cartTotal + shipping;
 
@@ -57,10 +62,12 @@ export default function CheckoutPage() {
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
     const address = formData.get('address') as string;
-    const city = formData.get('city') as string;
+    const phone = formData.get('phone') as string;
     const province = formData.get('province') as string;
+    const citySelection = formData.get('city') as string;
+    const city = citySelection === OTHER_CITY ? ((formData.get('cityOther') as string) || '').trim() : citySelection;
 
-    if (!email || !firstName || !lastName || !address || !city || !province) {
+    if (!email || !firstName || !lastName || !address || !phone || !city || !province) {
       setError('Please fill in all required fields.');
       return;
     }
@@ -68,8 +75,12 @@ export default function CheckoutPage() {
       setError('Please enter a valid email address.');
       return;
     }
+    if (!/^[\d\s+()-]{7,}$/.test(phone)) {
+      setError('Please enter a valid phone number.');
+      return;
+    }
 
-    setContactInfo({ email, firstName, lastName, address, apartment: formData.get('apartment') as string || '', city, province });
+    setContactInfo({ email, firstName, lastName, address, apartment: formData.get('apartment') as string || '', phone, city, province });
     setStep(2);
   };
 
@@ -83,6 +94,7 @@ export default function CheckoutPage() {
       lastName: contactInfo.lastName,
       address: contactInfo.address,
       apartment: contactInfo.apartment,
+      phone: contactInfo.phone,
       city: contactInfo.city,
       province: contactInfo.province,
     };
@@ -155,7 +167,7 @@ export default function CheckoutPage() {
                 {error && <div className="bg-red-900/30 border border-red-500/30 text-red-400 px-4 py-3 text-sm">{error}</div>}
                 <section>
                   <h2 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-4">Contact Information</h2>
-                  <input name="email" type="email" required placeholder="Email address" className={inputCls + " mb-2"} />
+                  <input name="email" type="email" required defaultValue={contactInfo.email} placeholder="Email address" className={inputCls + " mb-2"} />
                   <label className="flex items-center text-sm text-zinc-500 gap-3 mt-4">
                     <input type="checkbox" className="accent-accent w-4 h-4" />
                     Email me with news and offers
@@ -165,14 +177,20 @@ export default function CheckoutPage() {
                 <section>
                   <h2 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-4 mt-8">Shipping Address</h2>
                   <div className="grid grid-cols-2 gap-4 mb-4">
-                    <input name="firstName" type="text" required placeholder="First name" className={inputCls} />
-                    <input name="lastName" type="text" required placeholder="Last name" className={inputCls} />
+                    <input name="firstName" type="text" required defaultValue={contactInfo.firstName} placeholder="First name" className={inputCls} />
+                    <input name="lastName" type="text" required defaultValue={contactInfo.lastName} placeholder="Last name" className={inputCls} />
                   </div>
-                  <input name="address" type="text" required placeholder="Address" className={inputCls + " mb-4"} />
-                  <input name="apartment" type="text" placeholder="Apartment, suite, etc. (optional)" className={inputCls + " mb-4"} />
+                  <input name="address" type="text" required defaultValue={contactInfo.address} placeholder="Address" className={inputCls + " mb-4"} />
+                  <input name="apartment" type="text" defaultValue={contactInfo.apartment} placeholder="Apartment, suite, etc. (optional)" className={inputCls + " mb-4"} />
+                  <input name="phone" type="tel" required defaultValue={contactInfo.phone} placeholder="Phone number" className={inputCls + " mb-4"} />
                   <div className="grid grid-cols-2 gap-4 mb-4">
-                    <input name="city" type="text" required placeholder="City" className={inputCls} />
-                    <select name="province" required className={inputCls + " appearance-none"} defaultValue="">
+                    <select
+                      name="province"
+                      required
+                      className={inputCls + " appearance-none"}
+                      defaultValue={contactInfo.province}
+                      onChange={(e) => { setProvinceValue(e.target.value); setCityIsOther(false); }}
+                    >
                       <option value="" disabled className="bg-ink text-zinc-400">Select Province</option>
                       <option value="sindh" className="bg-ink">Sindh</option>
                       <option value="punjab" className="bg-ink">Punjab</option>
@@ -182,7 +200,32 @@ export default function CheckoutPage() {
                       <option value="ajk" className="bg-ink">AJK</option>
                       <option value="gb" className="bg-ink">Gilgit Baltistan</option>
                     </select>
+                    <select
+                      name="city"
+                      key={provinceValue}
+                      required
+                      disabled={!provinceValue}
+                      defaultValue={cities.includes(contactInfo.city) ? contactInfo.city : (contactInfo.city ? OTHER_CITY : '')}
+                      onChange={(e) => setCityIsOther(e.target.value === OTHER_CITY)}
+                      className={inputCls + " appearance-none disabled:opacity-40"}
+                    >
+                      <option value="" disabled className="bg-ink text-zinc-400">{provinceValue ? 'Select City' : 'Select province first'}</option>
+                      {cities.map((c) => (
+                        <option key={c} value={c} className="bg-ink">{c}</option>
+                      ))}
+                      <option value={OTHER_CITY} className="bg-ink">Other</option>
+                    </select>
                   </div>
+                  {cityIsOther && (
+                    <input
+                      name="cityOther"
+                      type="text"
+                      required
+                      defaultValue={!cities.includes(contactInfo.city) ? contactInfo.city : ''}
+                      placeholder="Enter your city name"
+                      className={inputCls + " mb-4"}
+                    />
+                  )}
                 </section>
 
                 <button type="submit" className="w-full bg-accent text-ink py-5 mt-4 font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-white transition-colors">

@@ -54,6 +54,7 @@ export default function AdminOrderDetailPage() {
             <p className="text-sm text-gray-500">{order.shippingAddress?.firstName} {order.shippingAddress?.lastName}</p>
             <p className="text-sm text-gray-500">{order.shippingAddress?.address}</p>
             <p className="text-sm text-gray-500">{order.shippingAddress?.city}, {order.shippingAddress?.province}</p>
+            <p className="text-sm text-gray-500">{order.shippingAddress?.phone}</p>
           </div>
 
           <div>

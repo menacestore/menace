@@ -27,8 +27,8 @@ export async function POST(request: NextRequest) {
     for (const row of settingsResult) {
       settings[row.key] = parseFloat(row.value);
     }
-    const shippingThreshold = settings.shipping_threshold || 15000;
-    const shippingCost = settings.shipping_cost || 250;
+    const shippingThreshold = settings.shipping_threshold ?? 0;
+    const shippingCost = settings.shipping_cost ?? 0;
 
     // Calculate totals
     let subtotal = 0;
@@ -43,10 +43,10 @@ export async function POST(request: NextRequest) {
 
     // Create order
     const orderResult = await query(
-      `INSERT INTO orders (order_number, user_id, email, status, subtotal, tax, shipping, total, payment_method, shipping_address)
-       VALUES ($1, $2, $3, 'pending', $4, $5, $6, $7, $8, $9)
+      `INSERT INTO orders (order_number, user_id, email, status, subtotal, shipping, total, payment_method, shipping_address)
+       VALUES ($1, $2, $3, 'pending', $4, $5, $6, $7, $8)
        RETURNING id`,
-      [orderNumber, userId || null, email, subtotal, 0, shipping, total, paymentMethod || 'cod', JSON.stringify(shippingAddress)]
+      [orderNumber, userId || null, email, subtotal, shipping, total, paymentMethod || 'cod', JSON.stringify(shippingAddress)]
     );
 
     const orderId = orderResult[0].id;
