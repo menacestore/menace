@@ -11,7 +11,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5]">
+    <div className="min-h-screen bg-[#f5f5f5] text-black">
       <header className="bg-white border-b border-black/10 px-6 py-4 flex items-center justify-between">
         <h1 className="text-xl font-bold font-display uppercase tracking-widest">Admin Panel</h1>
         <a href="/" className="text-[11px] uppercase tracking-widest text-gray-500 hover:text-black transition-colors">

@@ -46,8 +46,8 @@ export const orderStatusSchema = z.object({
 });
 
 export const settingsSchema = z.object({
-  shipping_threshold: z.number().positive(),
-  shipping_cost: z.number().positive(),
+  shipping_threshold: z.number().nonnegative(),
+  shipping_cost: z.number().nonnegative(),
 });
 
 export const registerSchema = z.object({

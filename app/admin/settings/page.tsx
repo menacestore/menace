@@ -7,6 +7,7 @@ export default function AdminSettingsPage() {
   const [shippingCost, setShippingCost] = useState('250');
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetch('/api/admin/settings')
@@ -21,8 +22,9 @@ export default function AdminSettingsPage() {
     e.preventDefault();
     setLoading(true);
     setSaved(false);
+    setError('');
 
-    await fetch('/api/admin/settings', {
+    const res = await fetch('/api/admin/settings', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -32,8 +34,14 @@ export default function AdminSettingsPage() {
     });
 
     setLoading(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+
+    if (res.ok) {
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } else {
+      const data = await res.json().catch(() => null);
+      setError(data?.error || 'Failed to save settings');
+    }
   };
 
   return (
@@ -41,6 +49,7 @@ export default function AdminSettingsPage() {
       <h2 className="text-2xl font-bold font-display mb-8">Shipping Settings</h2>
 
       {saved && <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 text-sm mb-6">Settings saved successfully</div>}
+      {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm mb-6">{error}</div>}
 
       <form onSubmit={handleSubmit} className="bg-white p-6 border border-black/10 space-y-6 max-w-lg">
         <div>

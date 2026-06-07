@@ -59,17 +59,22 @@ export function Navbar() {
   ];
 
   const isHome = pathname === '/';
+  const isAdmin = pathname.startsWith('/admin');
 
-  const headerBg = isScrolled
-    ? 'bg-ink/90 backdrop-blur-md border-white/10'
-    : isHome
-      ? 'bg-transparent border-transparent'
-      : 'bg-ink border-white/10';
+  const headerBg = isAdmin
+    ? 'bg-white border-black/10'
+    : isScrolled
+      ? 'bg-ink/90 backdrop-blur-md border-white/10'
+      : isHome
+        ? 'bg-transparent border-transparent'
+        : 'bg-ink border-white/10';
+
+  const headerText = isAdmin ? 'text-black' : 'text-zinc-100';
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 h-20 flex items-center px-4 sm:px-10 border-b text-zinc-100 ${headerBg}`}
+        className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 h-20 flex items-center px-4 sm:px-10 border-b ${headerText} ${headerBg}`}
       >
         {isSearchOpen ? (
           <form onSubmit={handleSearchSubmit} className="flex w-full items-center gap-3">
