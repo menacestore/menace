@@ -27,6 +27,7 @@ export async function sendOrderConfirmation({ to, name, orderNumber, items, tota
   const { data, error } = await resend.emails.send({
     from: FROM_EMAIL,
     to,
+    replyTo: ADMIN_EMAIL,
     subject: `Order Confirmed #${orderNumber}`,
     react: OrderConfirmationEmail({
       orderNumber,
@@ -57,6 +58,7 @@ export async function sendOrderStatus({ to, name, orderNumber, oldStatus, newSta
   const { data, error } = await resend.emails.send({
     from: FROM_EMAIL,
     to,
+    replyTo: ADMIN_EMAIL,
     subject: `Order #${orderNumber} Status Updated`,
     react: OrderStatusEmail({
       orderNumber,
@@ -86,6 +88,7 @@ export async function sendNewOrderNotification({ orderNumber, email, items, tota
   const { data, error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: ADMIN_EMAIL,
+    replyTo: ADMIN_EMAIL,
     subject: `New Order #${orderNumber}`,
     react: NewOrderEmail({
       orderNumber,

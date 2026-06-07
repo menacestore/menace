@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: `Menace <${process.env.EMAIL_FROM}>`,
       to: process.env.ADMIN_EMAIL!,
+      replyTo: email,
       subject: `Contact Form: ${subject}`,
       react: ContactEmail({ name, email, subject, message }),
     });
