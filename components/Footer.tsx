@@ -15,7 +15,7 @@ const footerLinks = [
     links: [
       { name: 'Track Order', href: '/order/track' },
       { name: 'Shopping Guide', href: '/shopping-guide' },
-      { name: 'Contact Us', href: '#' },
+      { name: 'Contact Us', href: '/contact' },
     ],
   },
   {
