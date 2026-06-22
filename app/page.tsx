@@ -4,6 +4,8 @@ import { ArrowRight, Sparkles, ShieldCheck, Truck } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { query } from '@/lib/db';
 import { formatProduct } from '@/lib/format';
+import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
+import TestimonialsSection from "@/components/testimonials-section";
 
 async function getFeaturedProducts() {
   const products = await query(`
@@ -50,30 +52,28 @@ export default async function Home() {
     <div className="flex flex-col bg-ink text-zinc-100 -mt-20">
 
       {/* HERO */}
-      <section className="relative min-h-[75vh] sm:min-h-[85vh] md:h-screen md:min-h-[560px] flex items-end justify-center overflow-hidden bg-ink">
-        <Image
-          src="/heropage.PNG"
-          alt="MENACE — Welcome to the dark side of streetwear"
-          fill
-          className="object-contain object-center"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
-
-        <div className="relative z-10 text-center px-4 pb-10 sm:pb-14 md:pb-20 w-full max-w-4xl mx-auto flex flex-col items-center">
+      <ScrollExpandMedia
+        mediaType="video"
+        mediaSrc="/heropage.mp4"
+        posterSrc="/heropage.PNG"
+        bgImageSrc="/heropage.PNG"
+      >
+        <div className="max-w-4xl mx-auto text-center">
           <Link
             href="/products"
             className="bg-accent text-ink px-10 py-4 sm:px-12 sm:py-5 font-bold uppercase tracking-[0.25em] text-[11px] hover:bg-white transition-colors inline-block"
           >
             Shop Now
           </Link>
-          <span className="mt-5 text-[10px] uppercase tracking-[0.4em] text-zinc-400">Scroll to enter</span>
+          <p className="mt-8 text-sm text-zinc-400 font-light leading-relaxed max-w-xl mx-auto">
+            Precision-crafted garments for those who refuse the ordinary. Bold silhouettes, uncompromising detail, built to be worn after dark.
+          </p>
         </div>
-      </section>
+      </ScrollExpandMedia>
 
       {/* MARQUEE */}
       <div className="bg-accent text-ink overflow-hidden py-3 border-y border-white/10">
-        <div className="flex w-max animate-marquee">
+        <div className="flex w-max animate-marquee-legacy">
           {[0, 1].map(group => (
             <div key={group} className="flex shrink-0 text-[11px] font-bold uppercase tracking-[0.3em]" aria-hidden={group === 1}>
               {Array.from({ length: 6 }).map((_, i) => (
@@ -156,6 +156,8 @@ export default async function Home() {
           })}
         </div>
       </section>
+
+      <TestimonialsSection />
 
     </div>
   );
