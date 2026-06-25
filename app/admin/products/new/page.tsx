@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { uploadToCloudinary } from '@/lib/cloudinary-upload';
 
@@ -184,7 +185,7 @@ export default function NewProductPage() {
           <div className="grid grid-cols-4 gap-2">
             {images.map((img, i) => (
               <div key={i} className="relative aspect-square bg-gray-100 border border-black/10">
-                <img src={img.url} alt="" className="w-full h-full object-cover" />
+                <Image src={img.url} alt="" fill sizes="25vw" className="object-cover" />
                 <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-black text-white text-[9px] w-5 h-5 flex items-center justify-center">
                   ×
                 </button>

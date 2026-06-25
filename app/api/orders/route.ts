@@ -75,38 +75,60 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Send confirmation emails (non-blocking)
-    try {
-      const productIds = [...new Set(items.map(item => item.productId))];
-      const productNames = await query(`SELECT id, name FROM products WHERE id = ANY($1::uuid[])`, [productIds]);
-      const nameMap = Object.fromEntries(productNames.map((p: any) => [p.id, p.name]));
+    // Send transactional emails. These are best-effort: the order is already
+    // committed, so an email failure must NOT fail the request. Instead we send
+    // each email independently and persist the outcome on the order so failures
+    // are visible in the admin dashboard and can be retried.
+    const productIds = [...new Set(items.map(item => item.productId))];
+    const productNames = await query(`SELECT id, name FROM products WHERE id = ANY($1::uuid[])`, [productIds]);
+    const nameMap = Object.fromEntries(productNames.map((p: any) => [p.id, p.name]));
 
-      const emailItems = items.map((item: any) => ({
-        name: nameMap[item.productId] || 'Product',
-        quantity: item.quantity,
-        price: item.price,
-      }));
+    const emailItems = items.map((item: any) => ({
+      name: nameMap[item.productId] || 'Product',
+      quantity: item.quantity,
+      price: item.price,
+    }));
 
-      await Promise.all([
-        sendOrderConfirmation({
-          to: email,
-          name: shippingAddress.firstName || 'Customer',
-          orderNumber,
-          items: emailItems,
-          total,
-          orderId,
-        }),
-        sendNewOrderNotification({
-          orderNumber,
-          email,
-          items: emailItems,
-          total,
-          orderId,
-        }),
-      ]);
-    } catch (emailError) {
-      console.error('Email sending failed:', emailError);
+    const [confirmationResult, adminResult] = await Promise.allSettled([
+      sendOrderConfirmation({
+        to: email,
+        name: shippingAddress.firstName || 'Customer',
+        orderNumber,
+        items: emailItems,
+        total,
+        orderId,
+      }),
+      sendNewOrderNotification({
+        orderNumber,
+        email,
+        items: emailItems,
+        total,
+        orderId,
+      }),
+    ]);
+
+    const confirmationStatus = confirmationResult.status === 'fulfilled' ? 'sent' : 'failed';
+    const adminStatus = adminResult.status === 'fulfilled' ? 'sent' : 'failed';
+    const confirmationError =
+      confirmationResult.status === 'rejected'
+        ? confirmationResult.reason instanceof Error
+          ? confirmationResult.reason.message
+          : String(confirmationResult.reason)
+        : null;
+
+    if (confirmationStatus === 'failed') {
+      console.error(`Order confirmation email failed for ${orderNumber}:`, confirmationError);
     }
+    if (adminResult.status === 'rejected') {
+      console.error(`Admin notification email failed for ${orderNumber}:`, adminResult.reason);
+    }
+
+    await query(
+      `UPDATE orders
+       SET confirmation_email_status = $1, confirmation_email_error = $2, admin_notification_status = $3
+       WHERE id = $4`,
+      [confirmationStatus, confirmationError, adminStatus, orderId]
+    );
 
     return NextResponse.json({
       message: 'Order created',

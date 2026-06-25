@@ -17,8 +17,8 @@ export default function Error({
   return (
     <div className="max-w-3xl mx-auto px-4 py-32 text-center">
       <span className="text-[10px] uppercase tracking-[0.4em] text-accent block mb-3">Error</span>
-      <h1 className="text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none mb-6">
-        Something went <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">wrong</span>
+      <h1 className="text-5xl md:text-7xl font-heading uppercase tracking-tight leading-none mb-6">
+        Something went <span className="italic font-display font-normal lowercase tracking-normal text-accent">wrong</span>
       </h1>
       <p className="text-zinc-400 mb-10 text-sm leading-relaxed max-w-sm mx-auto">An unexpected error occurred. Please try again or return to the homepage.</p>
       <div className="flex gap-4 justify-center">

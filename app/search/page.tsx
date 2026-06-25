@@ -58,8 +58,8 @@ export default async function SearchPage({
         <span className="text-[10px] uppercase tracking-[0.4em] text-accent">
           {searchQuery ? `Results for "${searchQuery}"` : 'Discover'}
         </span>
-        <h1 className="mt-3 text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none">
-          Search <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Results</span>
+        <h1 className="mt-3 text-5xl md:text-7xl font-heading uppercase tracking-tight leading-none">
+          Search <span className="italic font-display font-normal lowercase tracking-normal text-accent">Results</span>
         </h1>
         <SearchClient initialQuery={searchQuery} />
       </div>

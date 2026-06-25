@@ -45,8 +45,8 @@ export default function LoginPage() {
     <div className="min-h-screen bg-ink text-zinc-100 flex items-center justify-center px-4 -mt-20 pt-20">
       <div className="w-full max-w-md">
         <span className="text-[10px] uppercase tracking-[0.4em] text-accent block mb-3">Your Account</span>
-        <h1 className="text-5xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none mb-2">
-          Welcome <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Back</span>
+        <h1 className="text-5xl font-heading uppercase tracking-tight leading-none mb-2">
+          Welcome <span className="italic font-display font-normal lowercase tracking-normal text-accent">Back</span>
         </h1>
         <p className="text-zinc-400 text-sm mb-10">Sign in to your account</p>
 

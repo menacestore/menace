@@ -34,7 +34,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-10 pt-16 pb-12 grid grid-cols-1 md:grid-cols-12 gap-12">
         <div className="md:col-span-5">
           <Link href="/" className="inline-block">
-            <span className="font-[family-name:var(--font-heading)] uppercase text-6xl sm:text-7xl tracking-tight text-white leading-none">
+            <span className="font-heading uppercase text-6xl sm:text-7xl tracking-tight text-white leading-none">
               Menace
             </span>
           </Link>

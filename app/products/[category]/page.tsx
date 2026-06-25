@@ -91,9 +91,9 @@ export default async function CategoryPage({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="mb-12">
         <span className="text-[10px] uppercase tracking-[0.4em] text-accent">{meta.label}</span>
-        <h1 className="mt-3 text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none">
+        <h1 className="mt-3 text-5xl md:text-7xl font-heading uppercase tracking-tight leading-none">
           {meta.heading}{' '}
-          <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">{meta.italic}</span>
+          <span className="italic font-display font-normal lowercase tracking-normal text-accent">{meta.italic}</span>
         </h1>
         <p className="mt-4 text-zinc-400 max-w-xl text-sm leading-relaxed">{meta.description}</p>
       </div>

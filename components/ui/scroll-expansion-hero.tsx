@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -48,19 +49,24 @@ const ScrollExpandMedia = ({
   const showContentRef = useRef(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
-  const updateProgress = useRef((value: number, expanded: boolean, contentShown: boolean) => {
-    scrollProgressRef.current = value;
-    mediaFullyExpandedRef.current = expanded;
-    showContentRef.current = contentShown;
-    setScrollProgress(value);
-    setMediaFullyExpanded(expanded);
-    setShowContent(contentShown);
-  }).current;
+  const updateProgress = useCallback(
+    (value: number, expanded: boolean, contentShown: boolean) => {
+      scrollProgressRef.current = value;
+      mediaFullyExpandedRef.current = expanded;
+      showContentRef.current = contentShown;
+      setScrollProgress(value);
+      setMediaFullyExpanded(expanded);
+      setShowContent(contentShown);
+    },
+    [],
+  );
 
+  // Reset scroll-expansion state when the media source type changes.
   useEffect(() => {
     scrollProgressRef.current = 0;
     mediaFullyExpandedRef.current = false;
     showContentRef.current = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setScrollProgress(0);
     setShowContent(false);
     setMediaFullyExpanded(false);
@@ -68,10 +74,9 @@ const ScrollExpandMedia = ({
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (mediaFullyExpandedRef.current && e.deltaY < 0 && window.scrollY <= 5) {
-        updateProgress(0, false, false);
-        e.preventDefault();
-      } else if (!mediaFullyExpandedRef.current) {
+      // Collapse gradually (mirroring the expand) when scrolling up at the top.
+      const collapsing = mediaFullyExpandedRef.current && e.deltaY < 0 && window.scrollY <= 5;
+      if (collapsing || !mediaFullyExpandedRef.current) {
         e.preventDefault();
         const scrollDelta = e.deltaY * 0.0009;
         const newProgress = Math.min(
@@ -95,10 +100,9 @@ const ScrollExpandMedia = ({
       const touchY = e.touches[0].clientY;
       const deltaY = startY - touchY;
 
-      if (mediaFullyExpandedRef.current && deltaY < -20 && window.scrollY <= 5) {
-        updateProgress(0, false, false);
-        e.preventDefault();
-      } else if (!mediaFullyExpandedRef.current) {
+      // Collapse gradually (mirroring the expand) when swiping down at the top.
+      const collapsing = mediaFullyExpandedRef.current && deltaY < 0 && window.scrollY <= 5;
+      if (collapsing || !mediaFullyExpandedRef.current) {
         e.preventDefault();
         const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
         const scrollDelta = deltaY * scrollFactor;
@@ -316,24 +320,28 @@ const ScrollExpandMedia = ({
                 </div>
               </div>
 
-              <div
-                className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${
-                  textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
-                }`}
-              >
-                <motion.h2
-                  className='text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white transition-none tracking-tight'
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
+              {title && (
+                <div
+                  className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${
+                    textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
+                  }`}
                 >
-                  {firstWord}
-                </motion.h2>
-                <motion.h2
-                  className='text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-center text-white transition-none tracking-tight'
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
-                >
-                  {restOfTitle}
-                </motion.h2>
-              </div>
+                  <motion.h2
+                    className='text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white transition-none tracking-tight'
+                    style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                  >
+                    {firstWord}
+                  </motion.h2>
+                  {restOfTitle && (
+                    <motion.h2
+                      className='text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-center text-white transition-none tracking-tight'
+                      style={{ transform: `translateX(${textTranslateX}vw)` }}
+                    >
+                      {restOfTitle}
+                    </motion.h2>
+                  )}
+                </div>
+              )}
             </div>
 
             <motion.section

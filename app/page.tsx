@@ -51,6 +51,8 @@ export default async function Home() {
   return (
     <div className="flex flex-col bg-ink text-zinc-100 -mt-20">
 
+      <h1 className="sr-only">MENACE — Welcome to the dark side of streetwear</h1>
+
       {/* HERO */}
       <ScrollExpandMedia
         mediaType="video"
@@ -95,7 +97,7 @@ export default async function Home() {
                 <span className="text-[10px] uppercase tracking-widest text-accent">Curated for the bold</span>
                 <div className="h-px w-12 bg-white/20" />
               </div>
-              <h2 className="text-4xl sm:text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none">
+              <h2 className="text-4xl sm:text-5xl md:text-7xl font-heading uppercase tracking-tight leading-none">
                 Featured <span className="font-display italic font-normal lowercase tracking-normal text-accent">drops</span>
               </h2>
             </div>
@@ -122,11 +124,11 @@ export default async function Home() {
       <section className="relative bg-ink-soft grain border-y border-white/10 py-16 sm:py-20 md:py-28 px-4 overflow-hidden">
         <div className="relative max-w-4xl mx-auto text-center">
           <span className="text-[10px] uppercase tracking-[0.4em] text-accent">The Menace Ethos</span>
-          <h2 className="mt-5 sm:mt-6 text-3xl sm:text-4xl md:text-6xl font-[family-name:var(--font-heading)] uppercase leading-[0.95] tracking-tight text-white">
+          <h2 className="mt-5 sm:mt-6 text-3xl sm:text-4xl md:text-6xl font-heading uppercase leading-[0.95] tracking-tight text-white">
             Engineered for the <span className="text-accent">dark side</span> of streetwear
           </h2>
           <p className="mt-6 sm:mt-8 max-w-xl mx-auto text-sm text-zinc-400 font-light leading-relaxed">
-            Precision-crafted garments for those who refuse the ordinary. Bold silhouettes, uncompromising detail, built to be worn after dark.
+            Every drop is engineered, not decorated — heavyweight fabric, considered cuts, and finishing details obsessed over until they earn their place. This is streetwear with intent.
           </p>
         </div>
       </section>

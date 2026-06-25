@@ -11,6 +11,8 @@ export default function AdminOrderDetailPage() {
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`/api/admin/orders/${id}`)
@@ -30,6 +32,25 @@ export default function AdminOrderDetailPage() {
     });
     setUpdating(false);
     setOrder({ ...order, status });
+  };
+
+  const resendConfirmation = async () => {
+    setResending(true);
+    setResendMessage(null);
+    try {
+      const res = await fetch(`/api/admin/orders/${id}/resend-email`, { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        setOrder({ ...order, confirmationEmailStatus: 'sent', confirmationEmailError: null });
+        setResendMessage('Confirmation email sent.');
+      } else {
+        setOrder({ ...order, confirmationEmailStatus: 'failed', confirmationEmailError: data.details });
+        setResendMessage(data.details || 'Failed to send confirmation email.');
+      }
+    } catch {
+      setResendMessage('Failed to send confirmation email.');
+    }
+    setResending(false);
   };
 
   if (loading) return <p className="p-8">Loading...</p>;
@@ -60,6 +81,39 @@ export default function AdminOrderDetailPage() {
           <div>
             <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Payment</h3>
             <p className="text-sm uppercase">{order.paymentMethod}</p>
+          </div>
+
+          <div>
+            <h3 className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Confirmation Email</h3>
+            <div className="flex items-center gap-3 flex-wrap">
+              <span
+                className={`px-2 py-1 text-[10px] uppercase tracking-widest font-bold ${
+                  order.confirmationEmailStatus === 'sent'
+                    ? 'bg-green-100 text-green-700'
+                    : order.confirmationEmailStatus === 'failed'
+                      ? 'bg-red-100 text-red-700'
+                      : 'bg-gray-100 text-gray-500'
+                }`}
+              >
+                {order.confirmationEmailStatus || 'pending'}
+              </span>
+              {order.confirmationEmailStatus !== 'sent' && (
+                <button
+                  onClick={resendConfirmation}
+                  disabled={resending}
+                  className="px-3 py-2 text-[10px] uppercase tracking-widest font-bold border border-black/20 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                >
+                  {resending ? 'Sending...' : 'Resend'}
+                </button>
+              )}
+            </div>
+            {order.confirmationEmailError && (
+              <p className="mt-2 text-[11px] text-red-600">{order.confirmationEmailError}</p>
+            )}
+            {resendMessage && <p className="mt-2 text-[11px] text-gray-600">{resendMessage}</p>}
+            {order.adminNotificationStatus === 'failed' && (
+              <p className="mt-2 text-[11px] text-red-600">Admin notification email also failed to send.</p>
+            )}
           </div>
 
           <div>

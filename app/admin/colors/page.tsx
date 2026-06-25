@@ -23,6 +23,7 @@ export default function AdminColorsPage() {
     setLoading(false);
   };
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { fetchColors(); }, []);
 
   const handleCreate = async () => {

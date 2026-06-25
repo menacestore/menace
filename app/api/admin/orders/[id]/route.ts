@@ -14,7 +14,8 @@ export async function GET(
   const { id } = await params;
 
   const orders = await query(`
-    SELECT id, order_number AS "orderNumber", email, status, subtotal, shipping, total, payment_method AS "paymentMethod", shipping_address AS "shippingAddress", created_at AS "createdAt"
+    SELECT id, order_number AS "orderNumber", email, status, subtotal, shipping, total, payment_method AS "paymentMethod", shipping_address AS "shippingAddress", created_at AS "createdAt",
+           confirmation_email_status AS "confirmationEmailStatus", confirmation_email_error AS "confirmationEmailError", admin_notification_status AS "adminNotificationStatus"
     FROM orders WHERE id = $1
   `, [id]);
 

@@ -26,7 +26,9 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Reset transient overlay UI when the route changes.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobileMenuOpen(false);
     setIsSearchOpen(false);
   }, [pathname]);
@@ -90,6 +92,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => { setIsSearchOpen(false); setSearchQuery(''); }}
+              aria-label="Close search"
               className="p-1 transition-opacity hover:opacity-70"
             >
               <X className="w-5 h-5" />
@@ -101,6 +104,7 @@ export function Navbar() {
                <button
                  className="lg:hidden p-2 -ml-2 mr-4"
                  onClick={() => setIsMobileMenuOpen(true)}
+                 aria-label="Open menu"
                >
                  <Menu className="w-6 h-6" />
                </button>
@@ -123,7 +127,7 @@ export function Navbar() {
             <div className="flex items-center justify-center">
               <Link
                 href="/"
-                className="font-display font-bold text-2xl sm:text-3xl tracking-tight uppercase"
+                className="font-heading text-2xl sm:text-3xl tracking-[0.2em] uppercase"
               >
                 MENACE
               </Link>
@@ -133,6 +137,7 @@ export function Navbar() {
               {pathname !== '/search' && (
                 <button
                   onClick={openSearch}
+                  aria-label="Search"
                   className="flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70"
                 >
                   <Search className="w-5 h-5" />
@@ -146,12 +151,13 @@ export function Navbar() {
                   Logout
                 </button>
               ) : (
-                <Link href="/login" className="hidden sm:flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70">
+                <Link href="/login" aria-label="Account" className="hidden sm:flex text-[11px] items-center justify-center tracking-widest uppercase font-semibold transition-opacity hover:opacity-70">
                   <User className="w-5 h-5" />
                 </Link>
               )}
               <button
                 onClick={() => setIsCartOpen(true)}
+                aria-label={`Open cart${itemCount > 0 ? ` (${itemCount} items)` : ''}`}
                 className="text-[11px] flex items-center justify-center tracking-widest uppercase font-semibold relative transition-opacity hover:opacity-70"
               >
                 <ShoppingBag className="w-5 h-5" />
@@ -175,11 +181,12 @@ export function Navbar() {
         }`}
       >
         <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="font-[family-name:var(--font-heading)] font-bold text-2xl tracking-tight uppercase text-zinc-100">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="font-heading font-bold text-2xl tracking-[0.2em] uppercase text-zinc-100">
             MENACE
           </Link>
           <button
             onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Close menu"
             className="p-2 hover:bg-white/10 rounded-full transition-colors text-zinc-400 hover:text-zinc-100"
           >
             <X className="w-6 h-6" />

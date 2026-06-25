@@ -37,8 +37,8 @@ export default function TrackOrderPage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16">
         <span className="text-[10px] uppercase tracking-[0.4em] text-accent block mb-3">Your Order</span>
-        <h1 className="text-5xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none mb-2">
-          Order <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Found</span>
+        <h1 className="text-5xl font-heading uppercase tracking-tight leading-none mb-2">
+          Order <span className="italic font-display font-normal lowercase tracking-normal text-accent">Found</span>
         </h1>
         <p className="text-zinc-400 text-sm mb-10">Order #{order.orderNumber}</p>
 
@@ -91,8 +91,8 @@ export default function TrackOrderPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-16">
       <span className="text-[10px] uppercase tracking-[0.4em] text-accent block mb-3">Logistics</span>
-      <h1 className="text-5xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none mb-2">
-        Track <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Order</span>
+      <h1 className="text-5xl font-heading uppercase tracking-tight leading-none mb-2">
+        Track <span className="italic font-display font-normal lowercase tracking-normal text-accent">Order</span>
       </h1>
       <p className="text-zinc-400 text-sm mb-10">Enter your order number and email to check status</p>
 

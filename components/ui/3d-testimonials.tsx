@@ -23,7 +23,7 @@ export function Marquee({
   repeat = 4,
   ariaLabel,
   ariaLive = 'off',
-  ariaRole = 'marquee',
+  ariaRole,
   ...props
 }: MarqueeProps) {
   const marqueeRef = useRef<HTMLDivElement>(null);
@@ -44,7 +44,6 @@ export function Marquee({
       aria-label={ariaLabel}
       aria-live={ariaLive}
       role={ariaRole}
-      tabIndex={0}
     >
       {React.useMemo(
         () => (

@@ -8,7 +8,7 @@ import { CartDrawer } from '@/components/CartDrawer';
 import { SessionProvider } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
-const playfair = Playfair_Display({ subsets: ['latin'], style: ['normal', 'italic'], variable: '--font-display' });
+const playfair = Playfair_Display({ subsets: ['latin'], style: ['normal', 'italic'], variable: '--font-playfair' });
 const anton = Anton({ subsets: ['latin'], weight: '400', variable: '--font-anton' });
 
 export const metadata: Metadata = {

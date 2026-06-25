@@ -19,8 +19,8 @@ export default function ShoppingGuidePage() {
       {/* Header */}
       <div className="px-4 sm:px-8 lg:px-16 py-16 border-b border-white/10">
         <span className="text-[10px] uppercase tracking-[0.4em] text-accent block mb-3">Help & Information</span>
-        <h1 className="text-5xl sm:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none">
-          Shopping <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Guide</span>
+        <h1 className="text-5xl sm:text-7xl font-heading uppercase tracking-tight leading-none">
+          Shopping <span className="italic font-display font-normal lowercase tracking-normal text-accent">Guide</span>
         </h1>
       </div>
 

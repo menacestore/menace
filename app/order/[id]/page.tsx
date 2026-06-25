@@ -34,8 +34,8 @@ export default async function OrderConfirmationPage({ params }: { params: Promis
     <div className="max-w-3xl mx-auto px-4 py-16">
       <div className="text-center mb-12">
         <span className="text-[10px] uppercase tracking-[0.4em] text-accent block mb-3">Thank You</span>
-        <h1 className="text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none mb-6">
-          Order <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Confirmed.</span>
+        <h1 className="text-5xl md:text-7xl font-heading uppercase tracking-tight leading-none mb-6">
+          Order <span className="italic font-display font-normal lowercase tracking-normal text-accent">Confirmed.</span>
         </h1>
         <p className="text-zinc-400 text-sm leading-relaxed max-w-sm mx-auto">
           Your order <span className="font-bold text-zinc-100">#{order.orderNumber}</span> has been placed. Check your email for tracking details.

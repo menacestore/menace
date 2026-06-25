@@ -85,8 +85,8 @@ export default async function AllProductsPage({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="mb-12">
         <span className="text-[10px] uppercase tracking-[0.4em] text-accent">The Menace Collection</span>
-        <h1 className="mt-3 text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none">
-          All <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Products</span>
+        <h1 className="mt-3 text-5xl md:text-7xl font-heading uppercase tracking-tight leading-none">
+          All <span className="italic font-display font-normal lowercase tracking-normal text-accent">Products</span>
         </h1>
         <p className="mt-4 text-zinc-400 max-w-xl text-sm leading-relaxed">
           Our complete collection. Every piece engineered for endurance and aesthetics.

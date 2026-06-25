@@ -27,10 +27,10 @@ export function CartDrawer() {
       <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-ink-soft border-l border-white/10 z-50 flex flex-col p-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h3 className="text-lg font-[family-name:var(--font-heading)] uppercase tracking-tight text-zinc-100">Your Bag</h3>
+          <h3 className="text-lg font-heading uppercase tracking-tight text-zinc-100">Your Bag</h3>
           <div className="flex items-center gap-4">
             <span className="text-[10px] font-bold uppercase text-zinc-600 tracking-widest">{items.length} Items</span>
-            <button onClick={() => setIsCartOpen(false)} className="p-1 text-zinc-400 hover:text-zinc-100 transition-colors">
+            <button onClick={() => setIsCartOpen(false)} aria-label="Close cart" className="p-1 text-zinc-400 hover:text-zinc-100 transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -71,6 +71,7 @@ export function CartDrawer() {
                     </div>
                     <button
                       onClick={() => removeItem(item.product.id, item.size, item.color)}
+                      aria-label={`Remove ${item.product.name}`}
                       className="text-zinc-600 hover:text-zinc-100 transition-colors"
                     >
                       <X className="w-3 h-3" />
@@ -81,6 +82,7 @@ export function CartDrawer() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => updateQuantity(item.product.id, item.size, item.color, item.quantity - 1)}
+                        aria-label="Decrease quantity"
                         className="text-zinc-500 hover:text-zinc-100 transition-colors"
                       >
                         <Minus className="w-3 h-3" />
@@ -88,6 +90,7 @@ export function CartDrawer() {
                       <span className="text-[10px] font-bold w-4 text-center text-zinc-100">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.product.id, item.size, item.color, item.quantity + 1)}
+                        aria-label="Increase quantity"
                         className="text-zinc-500 hover:text-zinc-100 transition-colors"
                       >
                         <Plus className="w-3 h-3" />
@@ -114,7 +117,7 @@ export function CartDrawer() {
             </div>
             <div className="pt-4 flex justify-between items-baseline border-t border-white/10">
               <span className="text-[12px] font-bold uppercase tracking-widest text-zinc-100">Total</span>
-              <span className="text-2xl font-[family-name:var(--font-heading)] font-bold text-zinc-100">PKR {cartTotal.toLocaleString()}</span>
+              <span className="text-2xl font-heading font-bold text-zinc-100">PKR {cartTotal.toLocaleString()}</span>
             </div>
 
             <Link

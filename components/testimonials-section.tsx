@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Marquee } from '@/components/ui/3d-testimonials';
 
@@ -9,75 +9,65 @@ const testimonials = [
     name: 'Abdullah Khan',
     username: '@abdullahk',
     body: 'MENACE ka quality dekh kar yakeen nahi hua. International brand jaisa feel hai.',
-    img: 'https://randomuser.me/api/portraits/men/32.jpg',
     country: '🇵🇰 Karachi',
   },
   {
     name: 'Fatima Ahmed',
     username: '@fatimaa',
     body: 'Oversized fit bilkul waise jaise main chahti thi. Highly recommended!',
-    img: 'https://randomuser.me/api/portraits/women/44.jpg',
     country: '🇵🇰 Lahore',
   },
   {
     name: 'Hassan Ali',
     username: '@hassanali',
     body: 'Fabric ka weight and stitching — top notch. Bohot hard drop hai ye.',
-    img: 'https://randomuser.me/api/portraits/men/46.jpg',
     country: '🇵🇰 Islamabad',
   },
   {
     name: 'Zainab Sheikh',
     username: '@zsheikh',
     body: 'Delivery bohat fast thi aur packaging ekdum premium. Love it.',
-    img: 'https://randomuser.me/api/portraits/women/26.jpg',
     country: '🇵🇰 Lahore',
   },
   {
     name: 'Rayan Iqbal',
     username: '@rayaniqbal',
     body: 'Pehna hai to log puchte hain kahan milta hai. MENACE is the real deal.',
-    img: 'https://randomuser.me/api/portraits/men/75.jpg',
     country: '🇵🇰 Karachi',
   },
   {
     name: 'Ayesha Tariq',
     username: '@ayeshat',
     body: 'Black-on-black details next level hain. Craftsmanship speaks for itself.',
-    img: 'https://randomuser.me/api/portraits/women/65.jpg',
     country: '🇵🇰 Islamabad',
   },
   {
     name: 'Usman Chaudhry',
     username: '@uchaudhry',
     body: 'Ghar se nikalte hi log nazarein utha lete hain. Streetwear done right.',
-    img: 'https://randomuser.me/api/portraits/men/54.jpg',
     country: '🇵🇰 Lahore',
   },
   {
     name: 'Sara Farooqi',
     username: '@sfarooqi',
     body: 'Fit bilkul perfect hai. Jaise mere liye bana ho. Worth every rupee.',
-    img: 'https://randomuser.me/api/portraits/women/31.jpg',
     country: '🇵🇰 Karachi',
   },
   {
     name: 'Bilal Akhtar',
     username: '@bilalakhtar',
     body: 'Premium feel, bold designs. Yeh woh brand hai jo Pakistan ko chahiye tha.',
-    img: 'https://randomuser.me/api/portraits/men/29.jpg',
     country: '🇵🇰 Islamabad',
   },
 ];
 
-function TestimonialCard({ img, name, username, body, country }: (typeof testimonials)[number]) {
+function TestimonialCard({ name, username, body, country }: (typeof testimonials)[number]) {
   return (
     <Card className="w-56 border-white/10 bg-ink-soft">
       <CardContent className="p-4">
         <div className="flex items-center gap-2.5">
           <Avatar className="size-9 ring-1 ring-white/10">
-            <AvatarImage src={img} alt={name} />
-            <AvatarFallback className="bg-zinc-800 text-zinc-400 text-xs">{name[0]}</AvatarFallback>
+            <AvatarFallback className="bg-zinc-800 text-accent text-xs font-bold">{name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <figcaption className="text-sm font-medium text-zinc-100 flex items-center gap-1">
@@ -100,7 +90,7 @@ export default function TestimonialsSection() {
           <span className="text-[10px] uppercase tracking-widest text-accent">The Verdict</span>
           <div className="h-px w-12 bg-white/10" />
         </div>
-        <h2 className="text-4xl sm:text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none text-white">
+        <h2 className="text-4xl sm:text-5xl md:text-7xl font-heading uppercase tracking-tight leading-none text-white">
           What the <span className="font-display italic font-normal lowercase tracking-normal text-accent">crowd</span> says
         </h2>
       </div>

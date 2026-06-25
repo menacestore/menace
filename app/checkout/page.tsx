@@ -141,8 +141,8 @@ export default function CheckoutPage() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-32 text-center">
         <span className="text-[10px] uppercase tracking-[0.4em] text-accent block mb-3">Checkout</span>
-        <h1 className="text-5xl md:text-7xl font-[family-name:var(--font-heading)] uppercase tracking-tight leading-none mb-8">
-          Your Bag is <span className="italic font-[family-name:var(--font-display)] font-normal lowercase tracking-normal text-accent">Empty</span>
+        <h1 className="text-5xl md:text-7xl font-heading uppercase tracking-tight leading-none mb-8">
+          Your Bag is <span className="italic font-display font-normal lowercase tracking-normal text-accent">Empty</span>
         </h1>
         <Link href="/products" className="bg-accent text-ink px-10 py-5 font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-white transition-colors inline-block">
           Return to Shop
@@ -298,7 +298,7 @@ export default function CheckoutPage() {
           </div>
           <div className="border-t border-white/10 mt-6 pt-6 flex justify-between items-baseline">
             <span className="text-[12px] uppercase font-bold tracking-widest text-zinc-100">Total</span>
-            <span className="text-3xl font-bold font-[family-name:var(--font-heading)] tracking-tight text-zinc-100">PKR {finalTotal.toLocaleString()}</span>
+            <span className="text-3xl font-bold font-heading tracking-tight text-zinc-100">PKR {finalTotal.toLocaleString()}</span>
           </div>
         </div>
       </div>
